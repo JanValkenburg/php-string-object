@@ -79,7 +79,11 @@ class TestStringObj extends Tester
     }
     public function lengthIsEqual_03() {
         $res = (new StringObj('サッカー'))->wordCount();
-        $this->_isEqual($res, 4);
+        $this->_isEqual($res, 1);
+    }
+    public function lengthIsEqual_04() {
+        $res = (new StringObj('открытая машина'))->wordCount();
+        $this->_isEqual($res, 2);
     }
 
     public function ucWordsIsEqual_01(){
@@ -105,6 +109,60 @@ class TestStringObj extends Tester
     public function matchIsTrue_01()
     {
         $res = (new StringObj('サッカー'))->match('サッカー');
+        $this->_isTrue($res);
+    }
+
+    public function startsWith_01() {
+        $res = (new StringObj('ab'))->startsWith('b');
+        $this->_isFalse($res);
+    }
+    public function startsWith_02() {
+        $res = (new StringObj('ab'))->startsWith('a');
+        $this->_isTrue($res);
+    }
+    public function startsWith_03() {
+        $res = (new StringObj('ab'))->startsWith('ab');
+        $this->_isTrue($res);
+    }
+    public function startsWith_04() {
+        $res = (new StringObj('ab'))->startsWith('ab');
+        $this->_isTrue($res);
+    }
+    public function startsWith_05() {
+        $res = (new StringObj('ab'))->startsWith('à');
+        $this->_isFalse($res);
+    }
+    public function startsWith_06() {
+        $res = (new StringObj('サッカー'))->startsWith('サ');
+        $this->_isTrue($res);
+    }
+
+    public function endsWith_01() {
+        $res = (new StringObj('ab'))->endsWith('A');
+        $this->_isFalse($res);
+    }
+    public function endsWith_02() {
+        $res = (new StringObj('ab'))->endsWith('ab');
+        $this->_isTrue($res);
+    }
+    public function endsWith_03() {
+        $res = (new StringObj('ab'))->endsWith('aB');
+        $this->_isFalse($res);
+    }
+    public function endsWith_04() {
+        $res = (new StringObj('ab'))->endsWith('');
+        $this->_isFalse($res);
+    }
+    public function endsWith_05() {
+        $res = (new StringObj('ab'))->endsWith(null);
+        $this->_isFalse($res);
+    }
+    public function endsWith_06() {
+        $res = (new StringObj('サッカー'))->endsWith('サ');
+        $this->_isFalse($res);
+    }
+    public function endsWith_07() {
+        $res = (new StringObj('サッカー'))->endsWith('ー');
         $this->_isTrue($res);
     }
 }

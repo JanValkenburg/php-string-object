@@ -15,7 +15,8 @@ class StringObj
     protected $maxLength = 0;
     protected $maxLengthMode = 'strict';
 
-    protected function _checkMaxLength() {
+    protected function _checkMaxLength()
+    {
         if ($this->maxLength && strlen($this->string) > $this->maxLength) {
             if ($this::MAX_LENGTH_MODE_STRICT === $this->maxLengthMode) {
                 throw new Exception('String too long, max allowed length is ' . $this->maxLength);
@@ -45,12 +46,13 @@ class StringObj
         return $this->string;
     }
 
-    public function isEmpty():bool {
+    public function isEmpty(): bool
+    {
         $string = $this->string;
         if ($this->trimmed) {
             $string = trim($string);
         }
-        return !(bool) $string;
+        return !(bool)$string;
     }
 
     public function isAscii(): bool
@@ -58,10 +60,13 @@ class StringObj
         return mb_check_encoding($this->string, 'ASCII');
     }
 
-    public function isLocked():bool {
+    public function isLocked(): bool
+    {
         return $this->locked;
     }
-    public function isUnlocked():bool {
+
+    public function isUnlocked(): bool
+    {
         return false === $this->locked;
     }
 
@@ -82,33 +87,38 @@ class StringObj
         return strlen($string);
     }
 
-    public function lock() {
+    public function lock()
+    {
         $this->locked = true;
         return $this;
     }
 
-    public function lower() {
+    public function lower()
+    {
         if ($this->isUnlocked()) {
             $this->string = mb_convert_case($this->string, MB_CASE_LOWER, "UTF-8");
         }
         return $this;
     }
 
-    public function upper() {
+    public function upper()
+    {
         if ($this->isUnlocked()) {
             $this->string = mb_convert_case($this->string, MB_CASE_UPPER, "UTF-8");
         }
         return $this;
     }
 
-    public function ucWords() {
+    public function ucWords()
+    {
         if ($this->isUnlocked()) {
             $this->string = ucwords(strtolower($this->string), '("|- ');
         }
         return $this;
     }
 
-    public function firstUpper() {
+    public function firstUpper()
+    {
         if ($this->isUnlocked()) {
             $this->string = mb_convert_case($this->string, MB_CASE_TITLE, "UTF-8");
         }
@@ -129,14 +139,16 @@ class StringObj
         return $this;
     }
 
-    public function trim() {
+    public function trim()
+    {
         if ($this->isUnlocked()) {
             $this->string = trim($this->string);
         }
         return $this;
     }
 
-    public function set(string $string) {
+    public function set(string $string)
+    {
         if ($this->isUnlocked()) {
             $this->string = $string;
             $this->_checkMaxLength();
@@ -145,22 +157,25 @@ class StringObj
         return $this;
     }
 
-    public function setTrimming(bool $bool) {
+    public function setTrimming(bool $bool)
+    {
         $this->trimmed = $bool;
         return $this;
     }
 
-    public function setMaxLength(int $length) {
+    public function setMaxLength(int $length)
+    {
         $this->maxLength = $length;
         return $this;
     }
 
-    public function unlock() {
+    public function unlock()
+    {
         $this->locked = false;
         return $this;
     }
 
-    public function wordCount():string
+    public function wordCount(): string
     {
         return count(explode(' ', trim($this->string)));
     }
@@ -189,5 +204,15 @@ class StringObj
     {
         $this->string = htmlentities($this->string);
         return $this;
+    }
+
+    function startsWith($startString)
+    {
+        return (substr($this->string, 0, strlen($startString)) === $startString);
+    }
+
+    public function endsWith($endString)
+    {
+        return (substr($this->string, -strlen($endString)) === $endString);
     }
 }
