@@ -38,6 +38,9 @@ class StringObj
 
     public function contains($string): bool
     {
+        if (version_compare(PHP_VERSION, '8') >= 0) {
+            return str_contains($this->string, $string);
+        }
         return false !== strpos($this->string, $string);
     }
 
@@ -208,11 +211,17 @@ class StringObj
 
     function startsWith($startString)
     {
+        if (version_compare(PHP_VERSION, '8') >= 0) {
+            return str_starts_with($this->string, $startString);
+        }
         return (substr($this->string, 0, strlen($startString)) === $startString);
     }
 
     public function endsWith($endString)
     {
+        if (version_compare(PHP_VERSION, '8') >= 0) {
+            return str_ends_with($this->string, $endString);
+        }
         return (substr($this->string, -strlen($endString)) === $endString);
     }
 }
